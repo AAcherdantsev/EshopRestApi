@@ -5,14 +5,19 @@ namespace Shop.Products.Api.Endpoints.V1;
 
 public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
 {
+    /// <inheritdoc/>
     public override void Configure()
     {
         Get("/products");
         Version(1);
-        Description(b =>
+        
+        Summary(s =>
         {
-            b.Produces(200);
-            b.Produces(404);
+            s.Summary = "Get all products";
+            s.Description = "Returns a list of all available products.";
+            s.Response<List<ProductDto>>(200, "List of products retrieved successfully");
+            s.Response(404, "No products found");
+            s.Response(500, "Internal server error");
         });
         
         AllowAnonymous();

@@ -1,5 +1,8 @@
 namespace Shop.Products.Application.Dto.Requests;
 
+/// <summary>
+/// Represents a request for retrieving a paginated list of products.
+/// </summary>
 public class GetPagedProductListRequest
 {
     /// <summary>
