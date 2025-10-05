@@ -31,9 +31,9 @@ public class GetPagedProductListEndpoint : Endpoint<GetPagedProductListRequest, 
             s.Description = "Returns a paginated list of products with specified page number and page size.";
             s.Params["pageNumber"] = "Current page number. Set this value to -1 to get all products without pagination.";
             s.Params["pageSize"] = "Number of products per page";
-            s.Response<PagedList<ProductDto>>(200, "Paged list of products retrieved successfully");
-            s.Response(404, "No products found");
-            s.Response(500, "Internal server error");
+            s.Response<PagedList<ProductDto>>(StatusCodes.Status200OK, "Paged list of products retrieved successfully");
+            s.Response(StatusCodes.Status404NotFound, "No products found");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         PreProcessors(new GetPagedProductListProcessor());

@@ -36,9 +36,9 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
                 ImageUrl = "https://example.com/phone.jpg",
                 Description = "A sample product for demonstration.",
             };
-            s.Response<ProductDto>(201, "Product successfully created");
-            s.Response(400, "Invalid request data");
-            s.Response(500, "Internal server error");
+            s.Response<ProductDto>(StatusCodes.Status201Created, "Product successfully created");
+            s.Response(StatusCodes.Status400BadRequest, "Invalid request data");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         PreProcessors(new CreateProductProcessor());
@@ -53,11 +53,11 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
 
         if (!result.IsSuccess)
         {
-            await Send.ResponseAsync(null!, 400, ct);
+            await Send.ResponseAsync(null!, StatusCodes.Status400BadRequest, ct);
             return;
         }
 
         var dto = _mapper.Map<ProductDto>(result.Value);
-        await Send.ResponseAsync(dto, 201, ct);
+        await Send.ResponseAsync(dto, StatusCodes.Status201Created, ct);
     }
 }

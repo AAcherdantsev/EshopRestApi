@@ -30,10 +30,10 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             s.Summary = "Update product by ID";
             s.Description = "Updates specific product fields by its ID.";
             s.Params["id"] = "Product ID";
-            s.Response<ProductDto>(200, "Product updated successfully");
-            s.Response(400, "Invalid request data");
-            s.Response(404, "Product not found");
-            s.Response(500, "Internal server error");
+            s.Response<ProductDto>(StatusCodes.Status200OK, "Product updated successfully");
+            s.Response(StatusCodes.Status400BadRequest, "Invalid request data");
+            s.Response(StatusCodes.Status404NotFound, "Product not found");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         PreProcessors(new PatchProductProcessor());
@@ -60,6 +60,6 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             return;
         }
 
-        await Send.ResponseAsync(null!, 400, ct);
+        await Send.ResponseAsync(null!, StatusCodes.Status400BadRequest, ct);
     }
 }

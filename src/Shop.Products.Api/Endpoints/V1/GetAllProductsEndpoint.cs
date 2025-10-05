@@ -26,9 +26,9 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
         {
             s.Summary = "Get all products";
             s.Description = "Returns a list of all available products.";
-            s.Response<List<ProductDto>>(200, "List of products retrieved successfully");
-            s.Response(404, "No products found");
-            s.Response(500, "Internal server error");
+            s.Response<List<ProductDto>>(StatusCodes.Status200OK, "List of products retrieved successfully");
+            s.Response(StatusCodes.Status404NotFound, "No products found");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         AllowAnonymous();

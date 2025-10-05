@@ -9,7 +9,7 @@ using Shop.Products.Infrastructure.Errors;
 
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
-public class ProductRepository : IProductRepository
+internal class ProductRepository : IProductRepository
 {
     private readonly DatabaseContext _context;
     private readonly ILogger<ProductRepository> _logger;

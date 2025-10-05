@@ -27,9 +27,9 @@ public class GetProductEndpoint : EndpointWithoutRequest<ProductDto>
             s.Summary = "Get product by ID";
             s.Description = "Returns a single product";
             s.Params["id"] = "Product ID";
-            s.Response<ProductDto>(200, "Product found");
-            s.Response(404, "Product not found");
-            s.Response(500, "Internal server error");
+            s.Response<ProductDto>(StatusCodes.Status200OK, "Product found");
+            s.Response(StatusCodes.Status404NotFound,"Product not found");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         AllowAnonymous();

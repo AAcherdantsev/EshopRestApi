@@ -3,7 +3,7 @@ using Shop.Products.Domain.Entities;
 
 namespace Shop.Products.Infrastructure.Persistence;
 
-public class DatabaseContext : DbContext
+internal class DatabaseContext : DbContext
 {
     public DbSet<Product> Products { get; set; }
 

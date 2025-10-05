@@ -1,21 +1,19 @@
 using FastEndpoints;
 using Shop.Products.Api.Endpoints.Processors;
-using Shop.Products.Application.Common.Repositories;
+using Shop.Products.Application.Dto.Messages;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
-using IMapper = AutoMapper.IMapper;
+using Shop.Products.Application.Messaging;
 
 namespace Shop.Products.Api.Endpoints.V2;
 
 public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
 {
-    private readonly IMapper _mapper;
-    private readonly IProductRepository _productRepository;
+    private readonly IProductStockProducer _productStockProducer;
     
-    public PatchProductEndpoint(IProductRepository productRepository, IMapper mapper)
+    public PatchProductEndpoint(IProductStockProducer productStockProducer)
     {
-        _mapper = mapper;
-        _productRepository = productRepository;
+        _productStockProducer = productStockProducer;
     }
     
     /// <inheritdoc/>
@@ -29,10 +27,9 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             s.Summary = "Update product by ID";
             s.Description = "Updates specific product fields by its ID.";
             s.Params["id"] = "Product ID";
-            s.Response<ProductDto>(200, "Product updated successfully");
-            s.Response(400, "Invalid request data");
-            s.Response(404, "Product not found");
-            s.Response(500, "Internal server error");
+            s.Response(StatusCodes.Status202Accepted, "Request accepted");
+            s.Response(StatusCodes.Status400BadRequest, "Invalid request data");
+            s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
         
         PreProcessors(new PatchProductProcessor());
@@ -41,8 +38,16 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
     }
     
     /// <inheritdoc/>
-    public override Task<ProductDto> ExecuteAsync(PatchProductRequest req, CancellationToken ct)
+    public override async Task HandleAsync(PatchProductRequest req, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var productId = Route<int>("id");
+        var message = new PatchProductMessage()
+        {
+            ProductId = productId,
+            NewQuantity = req.NewQuantity
+        };
+        
+        await _productStockProducer.SendAsync(message);
+        await Send.ResponseAsync(null!, StatusCodes.Status202Accepted, ct);
     }
 }
