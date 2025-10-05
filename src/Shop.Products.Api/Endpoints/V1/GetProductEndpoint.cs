@@ -1,10 +1,21 @@
 using FastEndpoints;
+using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
+using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
 public class GetProductEndpoint : EndpointWithoutRequest<ProductDto>
 {
+    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    
+    public GetProductEndpoint(IProductRepository productRepository, IMapper mapper)
+    {
+        _mapper = mapper;
+        _productRepository = productRepository;
+    }
+    
     /// <inheritdoc/>
     public override void Configure()
     {
@@ -25,8 +36,17 @@ public class GetProductEndpoint : EndpointWithoutRequest<ProductDto>
     }
     
     /// <inheritdoc/>
-    public override Task<ProductDto> ExecuteAsync(  CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var productId = Route<int>("id");
+        var result = await _productRepository.GetProductByIdAsync(productId, ct);
+
+        if (result.IsSuccess)
+        {
+            await Send.ResponseAsync(_mapper.Map<ProductDto>(result.Value), cancellation: ct);
+            return;
+        }
+
+        await Send.NotFoundAsync(ct);
     }
 }

@@ -1,11 +1,22 @@
 using FastEndpoints;
+using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
+using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
 public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
 {
+    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    
+    public PostProductEndpoint(IProductRepository productRepository, IMapper mapper)
+    {
+        _mapper = mapper;
+        _productRepository = productRepository;
+    }
+    
     /// <inheritdoc/>
     public override void Configure()
     {
@@ -33,8 +44,18 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
     }
 
     /// <inheritdoc/>
-    public override Task<ProductDto> ExecuteAsync(CreateProductRequest req, CancellationToken ct)
+    public override async Task HandleAsync(CreateProductRequest req, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var result = await _productRepository.CreateProductAsync(req, ct);
+
+        if (!result.IsSuccess)
+        {
+            await Send.ResponseAsync(null!, 400, ct);
+            return;
+        }
+
+        var dto = _mapper.Map<ProductDto>(result.Value);
+        var location = $"/products/{dto.Id}";
+        await Send.CreatedAtAsync(location, dto, cancellation: ct);
     }
 }

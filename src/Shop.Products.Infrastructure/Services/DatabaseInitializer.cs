@@ -28,7 +28,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "iPhone 17 Pro",
-                ImageUrl = "/images/iphone17pro.jpg",
+                ImageUrl = "https://image-service.com/images/iphone17pro.jpg",
                 Price = 28_900,
                 Description = "The best Apple smartphone.",
                 Quantity = 25,
@@ -38,7 +38,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "Samsung Galaxy S26",
-                ImageUrl = "/images/galaxys26.jpg",
+                ImageUrl = "https://image-service.com/images/galaxys26.jpg",
                 Price = 29_000,
                 Description = "Powerful Android smartphone with AI features",
                 Quantity = 30,
@@ -48,7 +48,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "MacBook Air M3",
-                ImageUrl = "/images/macbookair.jpg",
+                ImageUrl = "https://image-service.com/images/macbookair.jpg",
                 Price = 59_900,
                 Description = "Lightweight and powerful laptop with Apple M3 chip",
                 Quantity = 15,
@@ -58,7 +58,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "Sony WH-1000XM5",
-                ImageUrl = "/images/sony-headphones.jpg",
+                ImageUrl = "https://image-service.com/images/sony-headphones.jpg",
                 Price = 6_900,
                 Description = "Wireless noise-canceling headphones",
                 Quantity = 40,
@@ -68,7 +68,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "iPad Pro 12.9",
-                ImageUrl = "/images/ipadpro.jpg",
+                ImageUrl = "https://image-service.com/images/ipadpro.jpg",
                 Price = 23_900,
                 Description = "Professional Apple tablet with Liquid Retina XDR display",
                 Quantity = 20,
@@ -78,7 +78,7 @@ public class DatabaseInitializer
             new Product 
             { 
                 Name = "Sony PlayStation 5 pro",
-                ImageUrl = "/images/ps5pro.jpg",
+                ImageUrl = "https://image-service.com/images/ps5pro.jpg",
                 Price = 12_999,
                 Description = "Next-generation game console",
                 Quantity = 10,

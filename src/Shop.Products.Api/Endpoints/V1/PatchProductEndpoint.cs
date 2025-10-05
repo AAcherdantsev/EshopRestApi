@@ -1,11 +1,22 @@
 using FastEndpoints;
+using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
+using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
 public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
 {
+    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    
+    public PatchProductEndpoint(IProductRepository productRepository, IMapper mapper)
+    {
+        _mapper = mapper;
+        _productRepository = productRepository;
+    }
+    
     /// <inheritdoc/>
     public override void Configure()
     {
@@ -27,8 +38,17 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
     }
     
     /// <inheritdoc/>
-    public override Task<ProductDto> ExecuteAsync(PatchProductRequest req, CancellationToken ct)
+    public override async Task HandleAsync(PatchProductRequest req, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var productId = Route<int>("id");
+        
+        var result = await _productRepository.UpdateProductQuantityAsync(productId, req.NewQuantity, ct);
+
+        if (result.IsSuccess)
+        {
+            await Send.ResponseAsync(_mapper.Map<ProductDto>(result.Value), cancellation: ct);
+            return;
+        }
+        await Send.NotFoundAsync(ct);
     }
 }

@@ -8,4 +8,12 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentResults" Version="3.16.0" />
+    </ItemGroup>
+
 </Project>

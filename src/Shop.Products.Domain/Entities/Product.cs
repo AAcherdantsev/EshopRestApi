@@ -2,19 +2,19 @@ namespace Shop.Products.Domain.Entities;
 
 public class Product : BaseEntity
 {
-    public required string Name { get; init; }
+    public required string Name { get; set; }
     
-    public required string ImageUrl { get; init; }
+    public required string ImageUrl { get; set; }
     
-    public decimal Price { get; init; }
+    public decimal Price { get; set; }
 
-    public string Description { get; init; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     
-    public int Quantity { get; init; }
+    public int Quantity { get; set; }
     
     public DateTime CreatedAt { get; init; }
     
-    public DateTime LastUpdatedAt { get; init; }
+    public DateTime LastUpdatedAt { get; set; }
     
     public override string ToString()
     {

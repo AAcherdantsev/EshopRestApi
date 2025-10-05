@@ -31,4 +31,34 @@ public class PagedList<T>
     /// The values of the current page.
     /// </summary>
     public IReadOnlyCollection<T> Values { get; init; } = [];
+    
+    public PagedList(IEnumerable<T> values, long totalCount, int page, int pageSize)
+    {
+        Values = new List<T>(values).AsReadOnly();
+        TotalCount = totalCount;
+        PageNumber = page;
+        PageSize = pageSize;
+    }
+    
+    private PagedList()
+    {
+    }
+    
+    public static PagedList<T> Create(IQueryable<T> query, int page, int pageSize)
+    {
+        var totalCount = query.Count();
+
+        List<T> values;
+
+        if (page > 0)
+        {
+            values = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        }
+        else
+        {
+            values = query.ToList();
+        }
+
+        return new PagedList<T>(values, totalCount, page, pageSize);
+    }
 }

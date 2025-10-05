@@ -1,11 +1,22 @@
 using FastEndpoints;
+using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
+using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V2;
 
 public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
 {
+    private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    
+    public PatchProductEndpoint(IProductRepository productRepository, IMapper mapper)
+    {
+        _mapper = mapper;
+        _productRepository = productRepository;
+    }
+    
     /// <inheritdoc/>
     public override void Configure()
     {

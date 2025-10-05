@@ -3,7 +3,9 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using NJsonSchema.Generation;
 using Shop.Products.Api.Mapping;
+using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Infrastructure.Persistence;
+using Shop.Products.Infrastructure.Persistence.Repositories;
 using Shop.Products.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +53,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
             o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         });
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
