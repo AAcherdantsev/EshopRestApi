@@ -6,15 +6,15 @@ using IMapper = AutoMapper.IMapper;
 namespace Shop.Products.Api.Endpoints.V1;
 
 /// <summary>
-/// Handles requests to retrieve all products.
+///     Handles requests to retrieve all products.
 /// </summary>
 public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
 {
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
-    
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="GetAllProductsEndpoint"/> class.
+    ///     Initializes a new instance of the <see cref="GetAllProductsEndpoint" /> class.
     /// </summary>
     /// <param name="productRepository">The repository used to access product data.</param>
     /// <param name="mapper">The AutoMapper instance for mapping entities to DTOs.</param>
@@ -23,15 +23,15 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
         _mapper = mapper;
         _productRepository = productRepository;
     }
-    
+
     /// <summary>
-    /// Configures the endpoint route, version, and Swagger documentation.
+    ///     Configures the endpoint route, version, and Swagger documentation.
     /// </summary>
     public override void Configure()
     {
         Get("/products");
         Version(1);
-        
+
         Summary(s =>
         {
             s.Summary = "Get all products";
@@ -40,11 +40,11 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
             s.Response(StatusCodes.Status404NotFound, "No products found");
             s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
-        
+
         AllowAnonymous();
     }
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public override async Task HandleAsync(CancellationToken ct)
     {
         var result = await _productRepository.GetAllProductsAsync(ct);

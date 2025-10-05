@@ -12,16 +12,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="15.0.1" />
-        <PackageReference Include="FastEndpoints.Swagger" Version="7.0.1" />
+        <PackageReference Include="AutoMapper" Version="15.0.1"/>
+        <PackageReference Include="FastEndpoints.Swagger" Version="7.0.1"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.19"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shop.Products.Application\Shop.Products.Application.csproj" />
-      <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj" />
-      <ProjectReference Include="..\Shop.Products.Infrastructure\Shop.Products.Infrastructure.csproj" />
+        <ProjectReference Include="..\Shop.Products.Application\Shop.Products.Application.csproj"/>
+        <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj"/>
+        <ProjectReference Include="..\Shop.Products.Infrastructure\Shop.Products.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -9,11 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj" />
+        <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentResults" Version="3.16.0" />
+        <PackageReference Include="FluentResults" Version="3.16.0"/>
     </ItemGroup>
 
 </Project>

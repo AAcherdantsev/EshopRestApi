@@ -6,12 +6,12 @@ using Shop.Products.Infrastructure.Persistence;
 namespace Shop.Products.Infrastructure.Services;
 
 /// <summary>
-/// Initializes the database and optionally adds example products.
+///     Initializes the database and optionally adds example products.
 /// </summary>
 public class DatabaseInitializer
 {
     /// <summary>
-    /// Initializes the database, applies migrations, and optionally adds example products.
+    ///     Initializes the database, applies migrations, and optionally adds example products.
     /// </summary>
     /// <param name="serviceProvider">The service provider for dependency injection.</param>
     /// <param name="addProductExamples">Indicates whether to add example products.</param>
@@ -20,25 +20,22 @@ public class DatabaseInitializer
         using var scope = serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         await context.Database.MigrateAsync();
-        
-        if (addProductExamples)
-        {
-            await AddProductExamplesAsync(context);
-        }
+
+        if (addProductExamples) await AddProductExamplesAsync(context);
     }
-    
+
     /// <summary>
-    /// Adds example products to the database if none exist.
+    ///     Adds example products to the database if none exist.
     /// </summary>
     /// <param name="context">The database context.</param>
     private static async Task AddProductExamplesAsync(DatabaseContext context)
     {
         if (context.Products.Any()) return;
         var currentTime = DateTime.UtcNow;
-            
+
         context.Products.AddRange(
-            new Product 
-            { 
+            new Product
+            {
                 Name = "iPhone 17 Pro",
                 ImageUrl = "https://image-service.com/images/iphone17pro.jpg",
                 Price = 28_900,
@@ -47,8 +44,8 @@ public class DatabaseInitializer
                 CreatedAt = currentTime,
                 LastUpdatedAt = currentTime
             },
-            new Product 
-            { 
+            new Product
+            {
                 Name = "Samsung Galaxy S26",
                 ImageUrl = "https://image-service.com/images/galaxys26.jpg",
                 Price = 29_000,
@@ -57,8 +54,8 @@ public class DatabaseInitializer
                 CreatedAt = currentTime,
                 LastUpdatedAt = currentTime
             },
-            new Product 
-            { 
+            new Product
+            {
                 Name = "MacBook Air M3",
                 ImageUrl = "https://image-service.com/images/macbookair.jpg",
                 Price = 59_900,
@@ -67,8 +64,8 @@ public class DatabaseInitializer
                 CreatedAt = currentTime,
                 LastUpdatedAt = currentTime
             },
-            new Product 
-            { 
+            new Product
+            {
                 Name = "Sony WH-1000XM5",
                 ImageUrl = "https://image-service.com/images/sony-headphones.jpg",
                 Price = 6_900,
@@ -77,8 +74,8 @@ public class DatabaseInitializer
                 CreatedAt = currentTime,
                 LastUpdatedAt = currentTime
             },
-            new Product 
-            { 
+            new Product
+            {
                 Name = "iPad Pro 12.9",
                 ImageUrl = "https://image-service.com/images/ipadpro.jpg",
                 Price = 23_900,
@@ -87,8 +84,8 @@ public class DatabaseInitializer
                 CreatedAt = currentTime,
                 LastUpdatedAt = currentTime
             },
-            new Product 
-            { 
+            new Product
+            {
                 Name = "Sony PlayStation 5 pro",
                 ImageUrl = "https://image-service.com/images/ps5pro.jpg",
                 Price = 12_999,

@@ -7,19 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shop.Products.Application\Shop.Products.Application.csproj" />
-      <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj" />
+        <ProjectReference Include="..\Shop.Products.Application\Shop.Products.Application.csproj"/>
+        <ProjectReference Include="..\Shop.Products.Domain\Shop.Products.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Confluent.Kafka" Version="2.11.1" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+        <PackageReference Include="Confluent.Kafka" Version="2.11.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
     </ItemGroup>
 
 </Project>

@@ -1,16 +1,18 @@
+using Projects;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-var saPassword = builder.AddParameter("SqlPassword", secret: true);
+var saPassword = builder.AddParameter("SqlPassword", true);
 
 var sql = builder
-    .AddSqlServer("sql", password: saPassword, port: 1433)
+    .AddSqlServer("sql", saPassword, 1433)
     .WithImageTag("2022-latest")
     .WithBindMount("./sql-data", "/var/opt/mssql")
     .AddDatabase("ProductsDb");
 
-var kafka = builder.AddKafka(name: "kafka", port: 51800).WithKafkaUI();
+var kafka = builder.AddKafka("kafka", 51800).WithKafkaUI();
 
-builder.AddProject<Projects.Shop_Products_Api>("shop-products-api")
+builder.AddProject<Shop_Products_Api>("shop-products-api")
     .WaitFor(kafka)
     .WaitFor(sql)
     .WithReference(kafka)

@@ -8,15 +8,15 @@ using Shop.Products.Infrastructure.Configurations;
 namespace Shop.Products.Infrastructure.Messages;
 
 /// <summary>
-/// Produces product stock update messages to a Kafka topic.
+///     Produces product stock update messages to a Kafka topic.
 /// </summary>
 internal class ProductStockProducer : IProductStockProducer
 {
-    private readonly KafkaSettings _settings;
     private readonly IProducer<Null, string> _producer;
+    private readonly KafkaSettings _settings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ProductStockProducer"/> class.
+    ///     Initializes a new instance of the <see cref="ProductStockProducer" /> class.
     /// </summary>
     /// <param name="settings">Kafka settings containing bootstrap servers and topic.</param>
     public ProductStockProducer(IOptions<KafkaSettings> settings)
@@ -27,7 +27,7 @@ internal class ProductStockProducer : IProductStockProducer
     }
 
     /// <summary>
-    /// Sends a patch product message asynchronously to Kafka.
+    ///     Sends a patch product message asynchronously to Kafka.
     /// </summary>
     /// <param name="request">The message containing product ID and new quantity.</param>
     public async Task SendAsync(PatchProductMessage request)

@@ -3,12 +3,12 @@ using FluentResults;
 namespace Shop.Products.Infrastructure.Errors;
 
 /// <summary>
-/// Represents an error indicating that a specified resource was not found.
+///     Represents an error indicating that a specified resource was not found.
 /// </summary>
 public sealed record NotFoundError : Error
 {
     /// <summary>
-    /// Creates a new instance of the <see cref="NotFoundError"/> class.
+    ///     Creates a new instance of the <see cref="NotFoundError" /> class.
     /// </summary>
     /// <param name="message">The message.</param>
     public NotFoundError(string message)
@@ -18,16 +18,16 @@ public sealed record NotFoundError : Error
 }
 
 /// <summary>
-/// Provides a base class for representing errors.
+///     Provides a base class for representing errors.
 /// </summary>
 public abstract record Error : IError
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string Message { get; init; } = string.Empty;
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public Dictionary<string, object> Metadata { get; init; } = [];
-    
-    /// <inheritdoc/>
+
+    /// <inheritdoc />
     public List<IError> Reasons { get; init; } = [];
 }

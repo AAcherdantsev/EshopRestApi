@@ -31,7 +31,7 @@ builder.Services.SwaggerDocument(o =>
         s.Version = "v2";
         s.SchemaSettings.SchemaNameGenerator = new DefaultSchemaNameGenerator();
     };
-    
+
     o.MaxEndpointVersion = 2;
     o.MinEndpointVersion = 2;
 });

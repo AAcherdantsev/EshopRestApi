@@ -10,15 +10,15 @@ using Shop.Products.Infrastructure.Errors;
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
 /// <summary>
-/// Implementation of <see cref="IProductRepository"/> using Entity Framework Core.
+///     Implementation of <see cref="IProductRepository" /> using Entity Framework Core.
 /// </summary>
 internal class ProductRepository : IProductRepository
 {
     private readonly DatabaseContext _context;
     private readonly ILogger<ProductRepository> _logger;
-    
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="ProductRepository"/> class.
+    ///     Initializes a new instance of the <see cref="ProductRepository" /> class.
     /// </summary>
     /// <param name="context">The database context.</param>
     /// <param name="logger">The logger instance.</param>
@@ -28,51 +28,51 @@ internal class ProductRepository : IProductRepository
         _logger = logger;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<Result<IEnumerable<Product>>> GetAllProductsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting all products...");
-        
+
         var products = await _context.Products
             .OrderBy(x => x.CreatedAt)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
-        
+
         return products;
     }
 
-    /// <inheritdoc/>
-    public Task<Result<PagedList<Product>>> GetAllProductsAsync(GetPagedProductListRequest request, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public Task<Result<PagedList<Product>>> GetAllProductsAsync(GetPagedProductListRequest request,
+        CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting all products with pagination...");
-        
+
         var query = _context.Products
             .OrderBy(x => x.CreatedAt)
             .AsNoTracking();
-        
-        return Task.FromResult<Result<PagedList<Product>>>(PagedList<Product>.Create(query, request.PageNumber, request.PageSize));
+
+        return Task.FromResult<Result<PagedList<Product>>>(PagedList<Product>.Create(query, request.PageNumber,
+            request.PageSize));
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public async Task<Result<Product>> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting product with ID {productId}...", productId);
-        
+
         var product = await _context.Products.FindAsync(productId);
 
-        if (product != null)
-        {
-            return Result.Ok(product);
-        }
-        
+        if (product != null) return Result.Ok(product);
+
         _logger.LogWarning("Product with ID {productId} not found", productId);
         return Result.Fail(new NotFoundError("Product not found."));
     }
 
-    /// <inheritdoc/>
-    public async Task<Result<Product>> CreateProductAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<Result<Product>> CreateProductAsync(CreateProductRequest request,
+        CancellationToken cancellationToken = default)
     {
-        var product = new Product()
+        var product = new Product
         {
             Name = request.Name,
             Price = request.Price,
@@ -80,9 +80,9 @@ internal class ProductRepository : IProductRepository
             ImageUrl = request.ImageUrl,
             CreatedAt = DateTime.UtcNow,
             LastUpdatedAt = DateTime.UtcNow,
-            Description = request.Description,
+            Description = request.Description
         };
-        
+
         _logger.LogInformation("Creating product {product}...", product);
 
         try
@@ -99,8 +99,9 @@ internal class ProductRepository : IProductRepository
         }
     }
 
-    /// <inheritdoc/>
-    public async Task<Result<Product>> UpdateProductQuantityAsync(int productId, int newQuantity, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<Result<Product>> UpdateProductQuantityAsync(int productId, int newQuantity,
+        CancellationToken cancellationToken = default)
     {
         var product = await _context.Products.FindAsync(productId);
 
@@ -109,10 +110,10 @@ internal class ProductRepository : IProductRepository
             _logger.LogWarning("Product with ID {productId} not found. Unable to update the product.", productId);
             return Result.Fail(new NotFoundError("Product not found."));
         }
-        
+
         product.Quantity = newQuantity;
         product.LastUpdatedAt = DateTime.UtcNow;
-        
+
         try
         {
             await _context.SaveChangesAsync(cancellationToken);

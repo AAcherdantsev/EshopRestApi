@@ -13,12 +13,12 @@ using Shop.Products.Infrastructure.Services;
 namespace Shop.Products.Infrastructure.Extensions;
 
 /// <summary>
-/// Provides extension methods for configuring services in the application.
+///     Provides extension methods for configuring services in the application.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Adds messaging-related services.
+    ///     Adds messaging-related services.
     /// </summary>
     /// <param name="builder">The host application builder to configure services on.</param>
     public static void AddMessageServices(this IHostApplicationBuilder builder)
@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds the database context and product repository to the service collection.
+    ///     Adds the database context and product repository to the service collection.
     /// </summary>
     /// <param name="builder">The host application builder to configure services on.</param>
     public static void AddRepository(this IHostApplicationBuilder builder)
@@ -51,13 +51,13 @@ public static class ServiceCollectionExtensions
                 .UseSqlServer(connectionString, o =>
                 {
                     o.EnableRetryOnFailure(
-                        maxRetryCount: 5,
-                        maxRetryDelay: TimeSpan.FromSeconds(30),
-                        errorNumbersToAdd: null);
+                        5,
+                        TimeSpan.FromSeconds(30),
+                        null);
                     o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                 });
         });
-        
+
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
     }
 }

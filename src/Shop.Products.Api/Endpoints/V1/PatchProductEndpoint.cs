@@ -8,9 +8,8 @@ using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
-
 /// <summary>
-/// Endpoint for updating specific product fields by ID.
+///     Endpoint for updating specific product fields by ID.
 /// </summary>
 public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
 {
@@ -18,7 +17,7 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
     private readonly IProductRepository _productRepository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PatchProductEndpoint"/> class.
+    ///     Initializes a new instance of the <see cref="PatchProductEndpoint" /> class.
     /// </summary>
     /// <param name="productRepository">The repository used to access and update product data.</param>
     /// <param name="mapper">The AutoMapper instance for mapping entities to DTOs.</param>
@@ -29,7 +28,7 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
     }
 
     /// <summary>
-    /// Configures the endpoint route, version, Swagger documentation, pre-processors, and access.
+    ///     Configures the endpoint route, version, Swagger documentation, pre-processors, and access.
     /// </summary>
     public override void Configure()
     {
@@ -53,7 +52,7 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
     }
 
     /// <summary>
-    /// Handles the PATCH request to update a product's quantity.
+    ///     Handles the PATCH request to update a product's quantity.
     /// </summary>
     /// <param name="req">The incoming patch request containing the new quantity.</param>
     /// <param name="ct">The cancellation token.</param>
