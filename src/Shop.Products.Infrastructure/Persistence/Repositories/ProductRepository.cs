@@ -5,6 +5,7 @@ using Shop.Products.Application.Common;
 using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Requests;
 using Shop.Products.Domain.Entities;
+using Shop.Products.Infrastructure.Errors;
 
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
@@ -54,7 +55,7 @@ public class ProductRepository : IProductRepository
         }
         
         _logger.LogWarning("Product with ID {productId} not found", productId);
-        return Result.Fail("Product not found.");
+        return Result.Fail(new NotFoundError("Product not found."));
     }
 
     public async Task<Result<Product>> CreateProductAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
@@ -93,7 +94,7 @@ public class ProductRepository : IProductRepository
         if (product == null)
         {
             _logger.LogWarning("Product with ID {productId} not found. Unable to update the product.", productId);
-            return Result.Fail("Product not found.");
+            return Result.Fail(new NotFoundError("Product not found."));
         }
         
         product.Quantity = newQuantity;

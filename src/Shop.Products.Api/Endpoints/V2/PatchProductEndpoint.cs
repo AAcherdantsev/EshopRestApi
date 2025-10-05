@@ -1,4 +1,5 @@
 using FastEndpoints;
+using Shop.Products.Api.Endpoints.Processors;
 using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
@@ -34,6 +35,8 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             s.Response(500, "Internal server error");
         });
         
+        PreProcessors(new PatchProductProcessor());
+
         AllowAnonymous();
     }
     

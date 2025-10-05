@@ -13,14 +13,14 @@ public class PagedList<T>
         new() { PageNumber = 0, PageSize = 0, Values = [] };
 
     /// <summary>
-    /// The current page
+    /// The current page (0 to get all data)
     /// </summary>
     public int PageNumber { get; init; } = 0;
 
     /// <summary>
     /// The page size
     /// </summary>
-    public int? PageSize { get; init; } = 10;
+    public int PageSize { get; init; } = 10;
 
     /// <summary>
     /// The total number of elements across all pages.

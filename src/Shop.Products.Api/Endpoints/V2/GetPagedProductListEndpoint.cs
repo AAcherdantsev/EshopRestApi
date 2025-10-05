@@ -1,4 +1,5 @@
 using FastEndpoints;
+using Shop.Products.Api.Endpoints.Processors;
 using Shop.Products.Application.Common;
 using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
@@ -35,6 +36,8 @@ public class GetPagedProductListEndpoint : Endpoint<GetPagedProductListRequest, 
             s.Response(500, "Internal server error");
         });
         
+        PreProcessors(new GetPagedProductListProcessor());
+
         AllowAnonymous();
     }
     

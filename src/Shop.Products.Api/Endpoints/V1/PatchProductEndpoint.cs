@@ -1,7 +1,9 @@
 using FastEndpoints;
+using Shop.Products.Api.Endpoints.Processors;
 using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Application.Dto.Requests;
+using Shop.Products.Infrastructure.Errors;
 using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
@@ -34,6 +36,8 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             s.Response(500, "Internal server error");
         });
         
+        PreProcessors(new PatchProductProcessor());
+
         AllowAnonymous();
     }
     
@@ -49,6 +53,13 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             await Send.ResponseAsync(_mapper.Map<ProductDto>(result.Value), cancellation: ct);
             return;
         }
-        await Send.NotFoundAsync(ct);
+
+        if (result.HasError<NotFoundError>())
+        {
+            await Send.NotFoundAsync(ct);
+            return;
+        }
+
+        await Send.ResponseAsync(null!, 400, ct);
     }
 }
