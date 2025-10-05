@@ -1,7 +1,10 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Microsoft.EntityFrameworkCore;
 using NJsonSchema.Generation;
 using Shop.Products.Api.Mapping;
+using Shop.Products.Infrastructure.Persistence;
+using Shop.Products.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +38,20 @@ builder.Services.SwaggerDocument(o =>
     o.MinEndpointVersion = 2;
 });
 
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("ProductsDb");
+    options
+        .UseSqlServer(connectionString, o =>
+        {
+            o.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null);
+            o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+});
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -44,5 +61,10 @@ app.UseFastEndpoints(c =>
     c.Versioning.PrependToRoute = true;
 });
 app.UseSwaggerGen();
+
+using (var scope = app.Services.CreateScope())
+{
+    await DatabaseInitializer.InitializeAsync(scope.ServiceProvider, addProductExamples: true);
+}
 
 app.Run();

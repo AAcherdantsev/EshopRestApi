@@ -23,6 +23,7 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
         AllowAnonymous();
     }
     
+    /// <inheritdoc/>
     public override Task<List<ProductDto>> ExecuteAsync( CancellationToken ct)
     {
         throw new NotImplementedException();

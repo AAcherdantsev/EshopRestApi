@@ -3,7 +3,9 @@ var builder = DistributedApplication.CreateBuilder(args);
 var saPassword = builder.AddParameter("SqlPassword", secret: true);
 
 var sql = builder
-    .AddSqlServer("sql", password: saPassword)
+    .AddSqlServer("sql", password: saPassword, port: 1433)
+    .WithImageTag("2022-latest")
+    .WithBindMount("./sql-data", "/var/opt/mssql")
     .AddDatabase("ProductsDb");
 
 var kafka = builder.AddKafka(name: "kafka", port: 51800).WithKafkaUI();
