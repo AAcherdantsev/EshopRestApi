@@ -13,14 +13,14 @@ public class PagedList<T>
         new() { PageNumber = 0, PageSize = 0, Values = [] };
 
     /// <summary>
-    /// The current page (0 to get all data)
+    /// The current page (-1 to get all data)
     /// </summary>
-    public int PageNumber { get; init; } = 0;
+    public int PageNumber { get; init; } 
 
     /// <summary>
     /// The page size
     /// </summary>
-    public int PageSize { get; init; } = 10;
+    public int PageSize { get; init; }
 
     /// <summary>
     /// The total number of elements across all pages.
@@ -50,9 +50,9 @@ public class PagedList<T>
 
         List<T> values;
 
-        if (page > 0)
+        if (page >= 0)
         {
-            values = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            values = query.Skip(page * pageSize).Take(pageSize).ToList();
         }
         else
         {

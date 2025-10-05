@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace Shop.Products.Application.Dto.Requests;
 
 /// <summary>
@@ -8,10 +10,12 @@ public class GetPagedProductListRequest
     /// <summary>
     /// The current page
     /// </summary>
-    public int PageNumber { get; init; } = 0;
+    [DefaultValue(0)]
+    public int PageNumber { get; init; }
 
     /// <summary>
     /// The page size
     /// </summary>
-    public int PageSize { get; init; } = 10;
+    [DefaultValue(10)]
+    public int PageSize { get; init; }
 }
