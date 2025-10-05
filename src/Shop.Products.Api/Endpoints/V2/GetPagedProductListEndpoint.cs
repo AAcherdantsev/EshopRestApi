@@ -42,8 +42,16 @@ public class GetPagedProductListEndpoint : Endpoint<GetPagedProductListRequest, 
     }
     
     /// <inheritdoc/>
-    public override Task<PagedList<ProductDto>> ExecuteAsync(GetPagedProductListRequest req, CancellationToken ct)
+    public override async Task HandleAsync(GetPagedProductListRequest req, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var result = await _productRepository.GetAllProductsAsync(req, ct);
+
+        if (result.IsSuccess)
+        {
+            await Send.ResponseAsync(_mapper.Map<PagedList<ProductDto>>(result.Value), cancellation: ct);
+            return;
+        }
+        
+        await Send.NotFoundAsync(ct);
     }
 }

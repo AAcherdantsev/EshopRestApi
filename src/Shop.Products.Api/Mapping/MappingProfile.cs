@@ -1,4 +1,5 @@
 using AutoMapper;
+using Shop.Products.Application.Common;
 using Shop.Products.Application.Dto.Products;
 using Shop.Products.Domain.Entities;
 
@@ -16,5 +17,6 @@ public class MappingProfile : Profile
     {
         CreateMap<ProductDto, Product>();
         CreateMap<Product, ProductDto>();
+        CreateMap<PagedList<Product>, PagedList<ProductDto>>();
     }
 }
