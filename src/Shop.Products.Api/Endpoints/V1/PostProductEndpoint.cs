@@ -55,7 +55,6 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
         }
 
         var dto = _mapper.Map<ProductDto>(result.Value);
-        var location = $"/products/{dto.Id}";
-        await Send.CreatedAtAsync(location, dto, cancellation: ct);
+        await Send.ResponseAsync(dto, 201, ct);
     }
 }
