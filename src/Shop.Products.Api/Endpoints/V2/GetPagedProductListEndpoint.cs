@@ -8,18 +8,28 @@ using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V2;
 
+/// <summary>
+/// Endpoint for retrieving a paginated list of products.
+/// </summary>
 public class GetPagedProductListEndpoint : Endpoint<GetPagedProductListRequest, PagedList<ProductDto>>
 {
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetPagedProductListEndpoint"/> class.
+    /// </summary>
+    /// <param name="productRepository">The repository used to retrieve product data.</param>
+    /// <param name="mapper">The AutoMapper instance for mapping entities to DTOs.</param>
     public GetPagedProductListEndpoint(IProductRepository productRepository, IMapper mapper)
     {
         _mapper = mapper;
         _productRepository = productRepository;
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Configures the endpoint route, version, Swagger documentation, pre-processors, and access.
+    /// </summary>
     public override void Configure()
     {
         Get("/products");
@@ -41,7 +51,11 @@ public class GetPagedProductListEndpoint : Endpoint<GetPagedProductListRequest, 
         AllowAnonymous();
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Handles the GET request to retrieve a paginated list of products.
+    /// </summary>
+    /// <param name="req">The request containing pagination parameters.</param>
+    /// <param name="ct">The cancellation token.</param>
     public override async Task HandleAsync(GetPagedProductListRequest req, CancellationToken ct)
     {
         var result = await _productRepository.GetAllProductsAsync(req, ct);

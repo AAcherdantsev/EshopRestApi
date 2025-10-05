@@ -1,5 +1,8 @@
 namespace Shop.Products.Domain.Entities;
 
+/// <summary>
+/// Represents the base entity class with a unique identifier.
+/// </summary>
 public class BaseEntity
 {
     /// <summary>

@@ -7,18 +7,28 @@ using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
+/// <summary>
+/// Endpoint for creating a new product.
+/// </summary>
 public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
 {
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PostProductEndpoint"/> class.
+    /// </summary>
+    /// <param name="productRepository">The repository used to create and store product data.</param>
+    /// <param name="mapper">The AutoMapper instance for mapping entities to DTOs.</param>
     public PostProductEndpoint(IProductRepository productRepository, IMapper mapper)
     {
         _mapper = mapper;
         _productRepository = productRepository;
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Configures the POST endpoint route, version, Swagger documentation, pre-processors, and access.
+    /// </summary>
     public override void Configure()
     {
         Post("/products");
@@ -46,7 +56,11 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
         AllowAnonymous();
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Handles the POST request to create a new product.
+    /// </summary>
+    /// <param name="req">The incoming create product request.</param>
+    /// <param name="ct">The cancellation token.</param>
     public override async Task HandleAsync(CreateProductRequest req, CancellationToken ct)
     {
         var result = await _productRepository.CreateProductAsync(req, ct);

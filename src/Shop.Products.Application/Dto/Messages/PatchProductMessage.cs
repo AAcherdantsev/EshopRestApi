@@ -1,5 +1,8 @@
 namespace Shop.Products.Application.Dto.Messages;
 
+/// <summary>
+/// Represents a message used to update the quantity of a product.
+/// </summary>
 public record PatchProductMessage
 {
     /// <summary>

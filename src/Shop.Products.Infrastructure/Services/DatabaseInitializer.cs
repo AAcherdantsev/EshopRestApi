@@ -5,8 +5,16 @@ using Shop.Products.Infrastructure.Persistence;
 
 namespace Shop.Products.Infrastructure.Services;
 
+/// <summary>
+/// Initializes the database and optionally adds example products.
+/// </summary>
 public class DatabaseInitializer
 {
+    /// <summary>
+    /// Initializes the database, applies migrations, and optionally adds example products.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider for dependency injection.</param>
+    /// <param name="addProductExamples">Indicates whether to add example products.</param>
     public static async Task InitializeAsync(IServiceProvider serviceProvider, bool addProductExamples = true)
     {
         using var scope = serviceProvider.CreateScope();
@@ -19,6 +27,10 @@ public class DatabaseInitializer
         }
     }
     
+    /// <summary>
+    /// Adds example products to the database if none exist.
+    /// </summary>
+    /// <param name="context">The database context.</param>
     private static async Task AddProductExamplesAsync(DatabaseContext context)
     {
         if (context.Products.Any()) return;

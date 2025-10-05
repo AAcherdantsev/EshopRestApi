@@ -12,8 +12,15 @@ using Shop.Products.Infrastructure.Services;
 
 namespace Shop.Products.Infrastructure.Extensions;
 
+/// <summary>
+/// Provides extension methods for configuring services in the application.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds messaging-related services.
+    /// </summary>
+    /// <param name="builder">The host application builder to configure services on.</param>
     public static void AddMessageServices(this IHostApplicationBuilder builder)
     {
         builder.Services.Configure<KafkaSettings>(options =>
@@ -30,7 +37,11 @@ public static class ServiceCollectionExtensions
         builder.Services.AddSingleton<IProductStockProducer, ProductStockProducer>();
         builder.Services.AddHostedService<ProductStockConsumer>();
     }
-    
+
+    /// <summary>
+    /// Adds the database context and product repository to the service collection.
+    /// </summary>
+    /// <param name="builder">The host application builder to configure services on.</param>
     public static void AddRepository(this IHostApplicationBuilder builder)
     {
         builder.Services.AddDbContext<DatabaseContext>(options =>

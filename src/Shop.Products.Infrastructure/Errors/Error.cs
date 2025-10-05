@@ -7,6 +7,10 @@ namespace Shop.Products.Infrastructure.Errors;
 /// </summary>
 public sealed record NotFoundError : Error
 {
+    /// <summary>
+    /// Creates a new instance of the <see cref="NotFoundError"/> class.
+    /// </summary>
+    /// <param name="message">The message.</param>
     public NotFoundError(string message)
     {
         Message = message;
@@ -18,7 +22,12 @@ public sealed record NotFoundError : Error
 /// </summary>
 public abstract record Error : IError
 {
+    /// <inheritdoc/>
     public string Message { get; init; } = string.Empty;
+    
+    /// <inheritdoc/>
     public Dictionary<string, object> Metadata { get; init; } = [];
+    
+    /// <inheritdoc/>
     public List<IError> Reasons { get; init; } = [];
 }

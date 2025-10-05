@@ -5,18 +5,28 @@ using IMapper = AutoMapper.IMapper;
 
 namespace Shop.Products.Api.Endpoints.V1;
 
+/// <summary>
+/// Handles requests to retrieve all products.
+/// </summary>
 public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
 {
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetAllProductsEndpoint"/> class.
+    /// </summary>
+    /// <param name="productRepository">The repository used to access product data.</param>
+    /// <param name="mapper">The AutoMapper instance for mapping entities to DTOs.</param>
     public GetAllProductsEndpoint(IProductRepository productRepository, IMapper mapper)
     {
         _mapper = mapper;
         _productRepository = productRepository;
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Configures the endpoint route, version, and Swagger documentation.
+    /// </summary>
     public override void Configure()
     {
         Get("/products");

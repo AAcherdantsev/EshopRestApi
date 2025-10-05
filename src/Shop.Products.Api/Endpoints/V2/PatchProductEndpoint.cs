@@ -7,16 +7,25 @@ using Shop.Products.Application.Messaging;
 
 namespace Shop.Products.Api.Endpoints.V2;
 
+/// <summary>
+/// Endpoint for patching a product's fields by ID.
+/// </summary>
 public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
 {
     private readonly IProductStockProducer _productStockProducer;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PatchProductEndpoint"/> class.
+    /// </summary>
+    /// <param name="productStockProducer">The product stock producer.</param>
     public PatchProductEndpoint(IProductStockProducer productStockProducer)
     {
         _productStockProducer = productStockProducer;
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Configures the endpoint route, version, Swagger documentation, pre-processors, and access.
+    /// </summary>
     public override void Configure()
     {
         Patch("/products/{id:int}");
@@ -37,7 +46,11 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
         AllowAnonymous();
     }
     
-    /// <inheritdoc/>
+    /// <summary>
+    /// Handles the PATCH request by sending a product update message.
+    /// </summary>
+    /// <param name="req">The patch product request containing the new quantity.</param>
+    /// <param name="ct">The cancellation token.</param>
     public override async Task HandleAsync(PatchProductRequest req, CancellationToken ct)
     {
         var productId = Route<int>("id");

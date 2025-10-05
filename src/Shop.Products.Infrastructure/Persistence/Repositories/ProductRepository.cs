@@ -9,17 +9,26 @@ using Shop.Products.Infrastructure.Errors;
 
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
+/// <summary>
+/// Implementation of <see cref="IProductRepository"/> using Entity Framework Core.
+/// </summary>
 internal class ProductRepository : IProductRepository
 {
     private readonly DatabaseContext _context;
     private readonly ILogger<ProductRepository> _logger;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ProductRepository"/> class.
+    /// </summary>
+    /// <param name="context">The database context.</param>
+    /// <param name="logger">The logger instance.</param>
     public ProductRepository(DatabaseContext context, ILogger<ProductRepository> logger)
     {
         _context = context;
         _logger = logger;
     }
 
+    /// <inheritdoc/>
     public async Task<Result<IEnumerable<Product>>> GetAllProductsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting all products...");
@@ -32,6 +41,7 @@ internal class ProductRepository : IProductRepository
         return products;
     }
 
+    /// <inheritdoc/>
     public Task<Result<PagedList<Product>>> GetAllProductsAsync(GetPagedProductListRequest request, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting all products with pagination...");
@@ -43,6 +53,7 @@ internal class ProductRepository : IProductRepository
         return Task.FromResult<Result<PagedList<Product>>>(PagedList<Product>.Create(query, request.PageNumber, request.PageSize));
     }
 
+    /// <inheritdoc/>
     public async Task<Result<Product>> GetProductByIdAsync(int productId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting product with ID {productId}...", productId);
@@ -58,6 +69,7 @@ internal class ProductRepository : IProductRepository
         return Result.Fail(new NotFoundError("Product not found."));
     }
 
+    /// <inheritdoc/>
     public async Task<Result<Product>> CreateProductAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
     {
         var product = new Product()
@@ -87,6 +99,7 @@ internal class ProductRepository : IProductRepository
         }
     }
 
+    /// <inheritdoc/>
     public async Task<Result<Product>> UpdateProductQuantityAsync(int productId, int newQuantity, CancellationToken cancellationToken = default)
     {
         var product = await _context.Products.FindAsync(productId);

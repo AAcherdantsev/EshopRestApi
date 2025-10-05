@@ -32,6 +32,13 @@ public class PagedList<T>
     /// </summary>
     public IReadOnlyCollection<T> Values { get; init; } = [];
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PagedList{T}"/> class with the specified values, total count, page number, and page size.
+    /// </summary>
+    /// <param name="values">The items in the current page.</param>
+    /// <param name="totalCount">The total number of items across all pages.</param>
+    /// <param name="page">The current page number.</param>
+    /// <param name="pageSize">The size of each page.</param>
     public PagedList(IEnumerable<T> values, long totalCount, int page, int pageSize)
     {
         Values = new List<T>(values).AsReadOnly();
@@ -40,10 +47,20 @@ public class PagedList<T>
         PageSize = pageSize;
     }
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PagedList{T}"/> class.
+    /// </summary>
     private PagedList()
     {
     }
     
+    /// <summary>
+    /// Creates a <see cref="PagedList{T}"/> from the specified query, page number, and page size.
+    /// </summary>
+    /// <param name="query">The source query from which to retrieve the items.</param>
+    /// <param name="page">The current page number. If less than 0, all items are returned.</param>
+    /// <param name="pageSize">The size of each page.</param>
+    /// <returns>A <see cref="PagedList{T}"/> containing the items for the specified page.</returns>
     public static PagedList<T> Create(IQueryable<T> query, int page, int pageSize)
     {
         var totalCount = query.Count();
