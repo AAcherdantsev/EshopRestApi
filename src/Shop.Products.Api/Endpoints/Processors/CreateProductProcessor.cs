@@ -36,9 +36,9 @@ public class CreateProductProcessor : IPreProcessor<CreateProductRequest>
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, statusCode: StatusCodes.Status400BadRequest, cancellation: ct);
         }
         
-        if (string.IsNullOrEmpty(context.Request!.ImageUrl))
+        if (!Uri.TryCreate(context.Request!.ImageUrl, UriKind.Absolute, out _))
         {
-            context.ValidationFailures.Add(new("BadRequest", "The image url must not be empty."));
+            context.ValidationFailures.Add(new("BadRequest", "The image url is not valid."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, statusCode: StatusCodes.Status400BadRequest, cancellation: ct);
         }
     }
