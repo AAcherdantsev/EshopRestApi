@@ -25,7 +25,7 @@ fi
 
 # --- Install Aspire workload ---
 echo "Installing Aspire workload..."
-"$HOME/.dotnet/dotnet" workload install aspire
+dotnet workload install aspire
 echo "Aspire workload installed successfully."
 echo
 
