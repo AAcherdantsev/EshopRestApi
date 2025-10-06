@@ -2,10 +2,8 @@ using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var saPassword = builder.AddParameter("SqlPassword", true);
-
 var sql = builder
-    .AddSqlServer("sql", saPassword, 1433)
+    .AddSqlServer("sql", null, 1433)
     .WithImageTag("2022-latest")
     .WithBindMount("./sql-data", "/var/opt/mssql")
     .AddDatabase("ProductsDb");

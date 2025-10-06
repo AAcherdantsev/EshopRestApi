@@ -23,10 +23,10 @@ else
     echo ".NET SDK installed successfully: $(dotnet --version)"
 fi
 
+# --- Install Aspire workload ---
 echo "Installing Aspire workload..."
-dotnet workload install aspire
+"$HOME/.dotnet/dotnet" workload install aspire
 echo "Aspire workload installed successfully."
-
 echo
 
 # --- Check and install Docker ---
@@ -72,7 +72,7 @@ fi
 # --- Restore NuGet packages ---
 if [ -f "../Shop.sln" ]; then
     echo "Restoring NuGet packages..."
-    dotnet restore ../Shop.sln
+    "$HOME/.dotnet/dotnet" restore ../Shop.sln
 else
     echo "No .sln file found. Skipping 'dotnet restore'."
 fi
