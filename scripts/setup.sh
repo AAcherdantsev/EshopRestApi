@@ -72,7 +72,7 @@ fi
 # --- Restore NuGet packages ---
 if [ -f "../Shop.sln" ]; then
     echo "Restoring NuGet packages..."
-    "$HOME/.dotnet/dotnet" restore ../Shop.sln
+    dotnet restore ../Shop.sln
 else
     echo "No .sln file found. Skipping 'dotnet restore'."
 fi
