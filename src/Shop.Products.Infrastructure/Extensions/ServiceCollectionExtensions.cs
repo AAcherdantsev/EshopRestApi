@@ -32,10 +32,12 @@ public static class ServiceCollectionExtensions
             options.BootstrapServers = bootstrapServers;
             options.Topic = "product-stock-topic";
         });
+
         builder.Services.AddSingleton<TopicInitializer>();
         builder.Services.AddHostedService<StartupInitializer>();
-        builder.Services.AddSingleton<IProductStockProducer, ProductStockProducer>();
         builder.Services.AddHostedService<ProductStockConsumer>();
+        builder.Services.AddSingleton<IAdminClientFactory, AdminClientFactory>();
+        builder.Services.AddSingleton<IProductStockProducer, ProductStockProducer>();
     }
 
     /// <summary>

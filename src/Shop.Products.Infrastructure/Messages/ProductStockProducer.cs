@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Confluent.Kafka;
 using Microsoft.Extensions.Options;
@@ -5,6 +6,7 @@ using Shop.Products.Application.Dto.Messages;
 using Shop.Products.Application.Messaging;
 using Shop.Products.Infrastructure.Configurations;
 
+[assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
 namespace Shop.Products.Infrastructure.Messages;
 
 /// <summary>

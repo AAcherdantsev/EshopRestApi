@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using Microsoft.Extensions.Options;
+using Shop.Products.Application.Messaging;
 using Shop.Products.Infrastructure.Configurations;
 
 namespace Shop.Products.Infrastructure.Messages;
@@ -11,23 +12,21 @@ namespace Shop.Products.Infrastructure.Messages;
 public class TopicInitializer
 {
     private readonly KafkaSettings _settings;
+    private readonly IAdminClientFactory _factory;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TopicInitializer" /> class.
     /// </summary>
-    /// <param name="options">Kafka settings containing bootstrap servers and topic name.</param>
-    public TopicInitializer(IOptions<KafkaSettings> options)
+    public TopicInitializer(IOptions<KafkaSettings> options, IAdminClientFactory factory)
     {
         _settings = options.Value;
+        _factory = factory;
     }
 
-    /// <summary>
-    ///     Ensures the Kafka topic exists by checking metadata and creating the topic if it does not exist.
-    /// </summary>
     public async Task EnsureTopicExistsAsync()
     {
         var config = new AdminClientConfig { BootstrapServers = _settings.BootstrapServers };
-        using var adminClient = new AdminClientBuilder(config).Build();
+        using var adminClient = _factory.Create(config);
 
         var metadata = adminClient.GetMetadata(TimeSpan.FromSeconds(5));
         var topicExists = metadata.Topics.Any(t => t.Topic == _settings.Topic);

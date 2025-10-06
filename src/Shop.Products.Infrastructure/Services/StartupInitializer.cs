@@ -28,7 +28,7 @@ public class StartupInitializer : IHostedService
     {
         using var scope = _serviceProvider.CreateScope();
         var topicInitializer = scope.ServiceProvider.GetRequiredService<TopicInitializer>();
-        var sqlTask = DatabaseInitializer.InitializeAsync(scope.ServiceProvider, true);
+        var sqlTask = DatabaseInitializer.InitializeAsync(scope.ServiceProvider);
         var topicTask = topicInitializer.EnsureTopicExistsAsync();
         await Task.WhenAll(sqlTask, topicTask);
     }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using Shop.Products.Application.Dto.Requests;
 using Shop.Products.Domain.Entities;
 using Shop.Products.Infrastructure.Errors;
 
+[assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
 /// <summary>
