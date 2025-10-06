@@ -9,6 +9,7 @@ using Shop.Products.Domain.Entities;
 using Shop.Products.Infrastructure.Errors;
 
 [assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace Shop.Products.Infrastructure.Persistence.Repositories;
 
 /// <summary>
