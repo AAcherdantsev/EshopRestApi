@@ -7,6 +7,7 @@ using Shop.Products.Application.Messaging;
 using Shop.Products.Infrastructure.Configurations;
 
 [assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
+
 namespace Shop.Products.Infrastructure.Messages;
 
 /// <summary>

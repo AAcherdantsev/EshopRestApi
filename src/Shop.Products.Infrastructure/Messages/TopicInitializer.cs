@@ -11,8 +11,8 @@ namespace Shop.Products.Infrastructure.Messages;
 /// </summary>
 public class TopicInitializer
 {
-    private readonly KafkaSettings _settings;
     private readonly IAdminClientFactory _factory;
+    private readonly KafkaSettings _settings;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TopicInitializer" /> class.

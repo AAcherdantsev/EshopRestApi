@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Shop.Products.Domain.Entities;
 
 [assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
+
 namespace Shop.Products.Infrastructure.Persistence;
 
 /// <summary>

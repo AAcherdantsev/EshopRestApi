@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -12,12 +13,6 @@ namespace Shop.Products.Infrastructure.Tests.Messages;
 [TestFixture]
 public class ProductStockConsumerTests
 {
-    private Mock<IServiceScopeFactory> _scopeFactoryMock;
-    private Mock<IServiceScope> _scopeMock;
-    private Mock<IServiceProvider> _serviceProviderMock;
-    private Mock<IProductRepository> _repositoryMock;
-    private IOptions<KafkaSettings> _settings;
-
     [SetUp]
     public void Setup()
     {
@@ -36,6 +31,12 @@ public class ProductStockConsumerTests
             Topic = "product-stock-topic"
         });
     }
+
+    private Mock<IServiceScopeFactory> _scopeFactoryMock;
+    private Mock<IServiceScope> _scopeMock;
+    private Mock<IServiceProvider> _serviceProviderMock;
+    private Mock<IProductRepository> _repositoryMock;
+    private IOptions<KafkaSettings> _settings;
 
     [Test]
     public async Task ExecuteAsync_ProcessesValidMessage_UpdatesRepository()
@@ -102,12 +103,12 @@ public class ProductStockConsumerTests
 
 internal class TestableProductStockConsumer : ProductStockConsumer
 {
-    public string? TestMessage { get; set; }
-
     public TestableProductStockConsumer(IServiceScopeFactory factory, IOptions<KafkaSettings> settings)
         : base(factory, settings)
     {
     }
+
+    public string? TestMessage { get; set; }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -118,7 +119,7 @@ internal class TestableProductStockConsumer : ProductStockConsumer
             {
                 using var scope = ((IServiceScopeFactory)typeof(ProductStockConsumer)
                         .GetField("_scopeFactory",
-                            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+                            BindingFlags.NonPublic | BindingFlags.Instance)!
                         .GetValue(this)!)
                     .CreateScope();
 

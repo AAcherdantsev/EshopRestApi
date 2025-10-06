@@ -21,25 +21,29 @@ public class CreateProductProcessor : IPreProcessor<CreateProductRequest>
     {
         if (context.Request!.Quantity <= 0)
         {
-            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Quantity), "The quantity must be greater than 0."));
+            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Quantity),
+                "The quantity must be greater than 0."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
 
         if (context.Request!.Price <= 0)
         {
-            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Price), "The price must be greater than 0."));
+            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Price),
+                "The price must be greater than 0."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
 
         if (string.IsNullOrEmpty(context.Request!.Name))
         {
-            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Name), "The name must not be empty."));
+            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.Name),
+                "The name must not be empty."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
 
         if (!Uri.TryCreate(context.Request!.ImageUrl, UriKind.Absolute, out _))
         {
-            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.ImageUrl), "The image url is not valid."));
+            context.ValidationFailures.Add(new ValidationFailure(nameof(CreateProductRequest.ImageUrl),
+                "The image url is not valid."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
     }

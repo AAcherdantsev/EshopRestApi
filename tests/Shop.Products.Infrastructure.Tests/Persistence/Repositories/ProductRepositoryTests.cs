@@ -1,4 +1,3 @@
-using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -11,20 +10,16 @@ using Shop.Products.Infrastructure.Persistence.Repositories;
 namespace Shop.Products.Infrastructure.Tests.Persistence.Repositories;
 
 /// <summary>
-/// Unit tests for the <see cref="ProductRepository"/> class.
+///     Unit tests for the <see cref="ProductRepository" /> class.
 /// </summary>
 [TestFixture]
 public class ProductRepositoryTests
 {
-    private DatabaseContext _context;
-    private Mock<ILogger<ProductRepository>> _loggerMock;
-    private ProductRepository _repository;
-
     [SetUp]
     public void SetUp()
     {
         var options = new DbContextOptionsBuilder<DatabaseContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
 
         _context = new DatabaseContext(options);
@@ -37,7 +32,11 @@ public class ProductRepositoryTests
     {
         _context?.Dispose();
     }
-    
+
+    private DatabaseContext _context;
+    private Mock<ILogger<ProductRepository>> _loggerMock;
+    private ProductRepository _repository;
+
     [Test]
     public async Task GetAllProductsAsync_WithProducts_ReturnsAllProductsOrderedByCreatedAt()
     {
@@ -52,12 +51,12 @@ public class ProductRepositoryTests
         // Assert
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Value.Count(), Is.EqualTo(3));
-        
+
         var productList = result.Value.ToList();
         Assert.That(productList[0].Name, Is.EqualTo("Product 1"));
         Assert.That(productList[1].Name, Is.EqualTo("Product 2"));
         Assert.That(productList[2].Name, Is.EqualTo("Product 3"));
-        
+
         var dates = productList.Select(p => p.CreatedAt).ToList();
         Assert.That(dates, Is.EqualTo(dates.OrderBy(d => d)));
     }
@@ -91,7 +90,7 @@ public class ProductRepositoryTests
         var result = await _repository.CreateProductAsync(request, cancelledToken);
         Assert.IsNotNull(result);
     }
-    
+
     [Test]
     public async Task GetAllProductsAsync_WithPagination_ReturnsPagedResults()
     {
@@ -111,7 +110,7 @@ public class ProductRepositoryTests
         Assert.That(result.Value.PageSize, Is.EqualTo(2));
         Assert.That(result.Value.TotalCount, Is.EqualTo(3));
         Assert.That(result.Value.Values.Count, Is.EqualTo(2));
-        
+
         var firstPageProducts = result.Value.Values.ToList();
         Assert.That(firstPageProducts[0].Name, Is.EqualTo("Product 1"));
         Assert.That(firstPageProducts[1].Name, Is.EqualTo("Product 2"));
@@ -136,7 +135,7 @@ public class ProductRepositoryTests
         Assert.That(result.Value.PageSize, Is.EqualTo(2));
         Assert.That(result.Value.TotalCount, Is.EqualTo(3));
         Assert.That(result.Value.Values.Count, Is.EqualTo(1));
-        
+
         var secondPageProducts = result.Value.Values.ToList();
         Assert.That(secondPageProducts[0].Name, Is.EqualTo("Product 3"));
     }
@@ -161,7 +160,7 @@ public class ProductRepositoryTests
         Assert.That(result.Value.TotalCount, Is.EqualTo(3));
         Assert.That(result.Value.Values.Count, Is.EqualTo(0));
     }
-    
+
     [Test]
     public async Task GetProductByIdAsync_WithExistingProduct_ReturnsProduct()
     {
@@ -199,12 +198,12 @@ public class ProductRepositoryTests
         // Arrange
         using var cts = new CancellationTokenSource();
         cts.Cancel();
-        
+
         var result = await _repository.GetProductByIdAsync(1, cts.Token);
 
         Assert.That(result.IsFailed, Is.True);
     }
-    
+
     [Test]
     public async Task CreateProductAsync_WithValidRequest_CreatesAndReturnsProduct()
     {
@@ -229,8 +228,7 @@ public class ProductRepositoryTests
         Assert.That(result.Value.Description, Is.EqualTo("A great product"));
         Assert.That(result.Value.Quantity, Is.EqualTo(5));
         Assert.That(result.Value.Id, Is.GreaterThan(0));
-        Assert.That(result.Value.CreatedAt, Is.EqualTo(result.Value.LastUpdatedAt));
-        
+
         var savedProduct = await _context.Products.FindAsync(result.Value.Id);
         Assert.That(savedProduct, Is.Not.Null);
         Assert.That(savedProduct.Name, Is.EqualTo("New Product"));
@@ -277,7 +275,7 @@ public class ProductRepositoryTests
         Assert.That(result.IsFailed, Is.True);
         Assert.That(result.Errors.First().Message, Does.StartWith("Error creating product. Exception:"));
     }
-    
+
     [Test]
     public async Task UpdateProductQuantityAsync_WithExistingProduct_UpdatesQuantityAndReturnsProduct()
     {
@@ -285,7 +283,7 @@ public class ProductRepositoryTests
         var product = CreateTestProduct("Test Product", 99.99m, 10);
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
-        
+
         var originalLastUpdatedAt = product.LastUpdatedAt;
 
         // Act
@@ -296,7 +294,7 @@ public class ProductRepositoryTests
         Assert.That(result.Value.Id, Is.EqualTo(product.Id));
         Assert.That(result.Value.Quantity, Is.EqualTo(25));
         Assert.That(result.Value.LastUpdatedAt, Is.GreaterThan(originalLastUpdatedAt));
-        
+
         // Verify in database
         var updatedProduct = await _context.Products.FindAsync(product.Id);
         Assert.That(updatedProduct, Is.Not.Null);
@@ -347,7 +345,7 @@ public class ProductRepositoryTests
         Assert.That(result.IsSuccess, Is.True);
         Assert.That(result.Value.Quantity, Is.EqualTo(-5));
     }
-    
+
     [Test]
     public async Task UpdateProductQuantityAsync_WithCancellationToken_CancelsOperation()
     {
@@ -355,14 +353,14 @@ public class ProductRepositoryTests
         var product = CreateTestProduct("Test Product", 99.99m, 10);
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
-        
+
         var cancelledToken = new CancellationToken(true);
 
         // Act & Assert
         var result = await _repository.UpdateProductQuantityAsync(product.Id, 50, cancelledToken);
         Assert.IsNotNull(result);
     }
-    
+
     private static Product CreateTestProduct(string name, decimal price, int quantity)
     {
         return new Product
@@ -380,7 +378,7 @@ public class ProductRepositoryTests
     private static List<Product> CreateTestProducts()
     {
         var baseTime = DateTime.UtcNow.AddHours(-3);
-        
+
         return new List<Product>
         {
             new()

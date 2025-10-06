@@ -10,7 +10,7 @@ namespace Shop.Products.Infrastructure.Tests.Messages;
 
 public class TopicInitializerTests
 {
-    private KafkaSettings _settings = new()
+    private readonly KafkaSettings _settings = new()
     {
         BootstrapServers = "localhost:9092",
         Topic = "test-topic"
@@ -31,7 +31,8 @@ public class TopicInitializerTests
 
         await initializer.EnsureTopicExistsAsync();
 
-        mockAdmin.Verify(a => a.CreateTopicsAsync(It.IsAny<IEnumerable<TopicSpecification>>(), It.IsAny<CreateTopicsOptions>()),
+        mockAdmin.Verify(
+            a => a.CreateTopicsAsync(It.IsAny<IEnumerable<TopicSpecification>>(), It.IsAny<CreateTopicsOptions>()),
             Times.Never);
     }
 

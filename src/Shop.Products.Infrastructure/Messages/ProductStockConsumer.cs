@@ -9,6 +9,8 @@ using Shop.Products.Application.Dto.Messages;
 using Shop.Products.Infrastructure.Configurations;
 
 [assembly: InternalsVisibleTo("Shop.Products.Infrastructure.Tests")]
+[assembly: InternalsVisibleTo("Shop.Products.Api.Tests")]
+
 namespace Shop.Products.Infrastructure.Messages;
 
 /// <summary>

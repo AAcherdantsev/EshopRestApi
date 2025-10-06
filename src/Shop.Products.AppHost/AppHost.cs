@@ -2,7 +2,7 @@ using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var saPassword = builder.AddParameter("sql-password", secret: true);
+var saPassword = builder.AddParameter("sql-password", true);
 
 var sql = builder
     .AddSqlServer("sql", saPassword, 1433)

@@ -11,9 +11,6 @@ namespace Shop.Products.Infrastructure.Tests.Messages;
 [TestFixture]
 public class ProductStockProducerTests
 {
-    private Mock<IProducer<Null, string>> _mockProducer;
-    private KafkaSettings _settings;
-
     [SetUp]
     public void SetUp()
     {
@@ -27,6 +24,9 @@ public class ProductStockProducerTests
         CreateProducerWithMock(_mockProducer.Object, _settings);
     }
 
+    private Mock<IProducer<Null, string>> _mockProducer;
+    private KafkaSettings _settings;
+
     private static ProductStockProducer CreateProducerWithMock(IProducer<Null, string> mockProducer,
         KafkaSettings settings)
     {
@@ -36,7 +36,7 @@ public class ProductStockProducerTests
         field!.SetValue(producer, mockProducer);
         return producer;
     }
-    
+
     [Test]
     public async Task Constructor_ShouldInitializeProducer()
     {

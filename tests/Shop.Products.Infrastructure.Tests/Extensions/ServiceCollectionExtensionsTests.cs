@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Shop.Products.Application.Common.Repositories;
 using Shop.Products.Application.Messaging;
 using Shop.Products.Infrastructure.Configurations;
@@ -16,8 +17,6 @@ namespace Shop.Products.Infrastructure.Tests.Extensions;
 [TestFixture]
 public class ServiceCollectionExtensionsTests
 {
-    private IHostApplicationBuilder _builder;
-
     [SetUp]
     public void Setup()
     {
@@ -26,13 +25,15 @@ public class ServiceCollectionExtensionsTests
             {
                 new KeyValuePair<string, string?>("ConnectionStrings:ProductsDb",
                     "Server=(localdb)\\MSSQLLocalDB;Database=TestDb;Trusted_Connection=True;"),
-                new KeyValuePair<string, string?>("ConnectionStrings:kafka", "localhost:9092"),
+                new KeyValuePair<string, string?>("ConnectionStrings:kafka", "localhost:9092")
             })
             .Build();
 
         _builder = Host.CreateApplicationBuilder();
         _builder.Configuration.AddConfiguration(inMemoryConfig);
     }
+
+    private IHostApplicationBuilder _builder;
 
     [Test]
     public void AddMessageServices_RegistersKafkaRelatedServices()
@@ -46,7 +47,7 @@ public class ServiceCollectionExtensionsTests
         Assert.That(provider.GetRequiredService<TopicInitializer>(), Is.Not.Null);
         Assert.That(provider.GetRequiredService<IProductStockProducer>(), Is.InstanceOf<ProductStockProducer>());
 
-        var options = provider.GetRequiredService<Microsoft.Extensions.Options.IOptions<KafkaSettings>>().Value;
+        var options = provider.GetRequiredService<IOptions<KafkaSettings>>().Value;
         Assert.That(options.BootstrapServers, Is.EqualTo("localhost:9092"));
         Assert.That(options.Topic, Is.EqualTo("product-stock-topic"));
     }
@@ -58,7 +59,7 @@ public class ServiceCollectionExtensionsTests
         var badBuilder = Host.CreateApplicationBuilder();
         badBuilder.Configuration.AddInMemoryCollection(new[]
         {
-            new KeyValuePair<string, string?>("ConnectionStrings:ProductsDb", "fake"),
+            new KeyValuePair<string, string?>("ConnectionStrings:ProductsDb", "fake")
         });
 
         // Act + Assert
@@ -83,7 +84,7 @@ public class ServiceCollectionExtensionsTests
         var repo = provider.GetRequiredService<IProductRepository>();
         Assert.That(repo, Is.InstanceOf<ProductRepository>());
     }
-    
+
     [Test]
     public void AddRepository_ConfiguresDbContextWithSqlServer()
     {
