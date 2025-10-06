@@ -18,7 +18,7 @@ public class PatchProductProcessor : IPreProcessor<PatchProductRequest>
     {
         if (context.Request!.NewQuantity <= 0)
         {
-            context.ValidationFailures.Add(new ValidationFailure("BadRequest", "The quantity must be greater than 0."));
+            context.ValidationFailures.Add(new ValidationFailure(nameof(PatchProductRequest.NewQuantity), "The quantity must be greater than 0."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
     }

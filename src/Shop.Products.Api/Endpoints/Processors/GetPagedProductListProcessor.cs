@@ -18,14 +18,14 @@ public class GetPagedProductListProcessor : IPreProcessor<GetPagedProductListReq
     {
         if (context.Request!.PageNumber < -1)
         {
-            context.ValidationFailures.Add(new ValidationFailure("BadRequest",
+            context.ValidationFailures.Add(new ValidationFailure(nameof(GetPagedProductListRequest.PageNumber),
                 "The page number must be equal or greater than -1."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }
 
         if (context.Request!.PageSize <= 0)
         {
-            context.ValidationFailures.Add(new ValidationFailure("BadRequest",
+            context.ValidationFailures.Add(new ValidationFailure(nameof(GetPagedProductListRequest.PageSize),
                 "The page size must be greater than 0."));
             await context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures, cancellation: ct);
         }

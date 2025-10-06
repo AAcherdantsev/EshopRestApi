@@ -37,7 +37,6 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
             s.Summary = "Get all products";
             s.Description = "Returns a list of all available products.";
             s.Response<List<ProductDto>>(StatusCodes.Status200OK, "List of products retrieved successfully");
-            s.Response(StatusCodes.Status404NotFound, "No products found");
             s.Response(StatusCodes.Status500InternalServerError, "Internal server error");
         });
 
@@ -55,6 +54,6 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
             return;
         }
 
-        await Send.NotFoundAsync(ct);
+        await Send.ResponseAsync(null!, StatusCodes.Status500InternalServerError, ct);
     }
 }
