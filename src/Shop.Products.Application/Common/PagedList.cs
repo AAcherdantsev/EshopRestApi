@@ -64,14 +64,19 @@ public class PagedList<T>
     /// <returns>A <see cref="PagedList{T}" /> containing the items for the specified page.</returns>
     public static PagedList<T> Create(IQueryable<T> query, int page, int pageSize)
     {
-        var totalCount = query.Count();
-
+        int totalCount;
         List<T> values;
 
         if (page >= 0)
+        {
+            totalCount = query.Count();
             values = query.Skip(page * pageSize).Take(pageSize).ToList();
+        }
         else
+        {
             values = query.ToList();
+            totalCount = values.Count;
+        }
 
         return new PagedList<T>(values, totalCount, page, pageSize);
     }

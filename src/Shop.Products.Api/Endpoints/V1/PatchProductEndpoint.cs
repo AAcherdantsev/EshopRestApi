@@ -74,6 +74,6 @@ public class PatchProductEndpoint : Endpoint<PatchProductRequest, ProductDto>
             return;
         }
 
-        await Send.ResponseAsync(null!, StatusCodes.Status400BadRequest, ct);
+        ThrowError(string.Join("; ", result.Errors), StatusCodes.Status400BadRequest);
     }
 }

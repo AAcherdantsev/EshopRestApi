@@ -17,6 +17,12 @@ public class MappingProfile : Profile
     {
         CreateMap<ProductDto, Product>();
         CreateMap<Product, ProductDto>();
-        CreateMap<PagedList<Product>, PagedList<ProductDto>>();
+        CreateMap<PagedList<Product>, PagedList<ProductDto>>()
+            .ConvertUsing((src, dest, context) =>
+                new PagedList<ProductDto>(
+                    context.Mapper.Map<List<ProductDto>>(src.Values),
+                    src.TotalCount,
+                    src.PageNumber,
+                    src.PageSize));
     }
 }

@@ -67,7 +67,7 @@ public class PostProductEndpoint : Endpoint<CreateProductRequest, ProductDto>
 
         if (!result.IsSuccess)
         {
-            await Send.ResponseAsync(null!, StatusCodes.Status400BadRequest, ct);
+            ThrowError(string.Join("; ", result.Errors), StatusCodes.Status400BadRequest);
             return;
         }
 

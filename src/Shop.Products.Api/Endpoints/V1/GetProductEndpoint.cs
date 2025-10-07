@@ -58,6 +58,6 @@ public class GetProductEndpoint : EndpointWithoutRequest<ProductDto>
             return;
         }
 
-        await Send.NotFoundAsync(ct);
+        ThrowError(string.Join("; ", result.Errors), StatusCodes.Status404NotFound);
     }
 }

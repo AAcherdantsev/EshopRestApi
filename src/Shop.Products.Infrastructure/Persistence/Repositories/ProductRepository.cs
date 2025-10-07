@@ -107,6 +107,12 @@ internal class ProductRepository : IProductRepository
     public async Task<Result<Product>> UpdateProductQuantityAsync(int productId, int newQuantity,
         CancellationToken cancellationToken = default)
     {
+        if (newQuantity < 0)
+        {
+            _logger.LogWarning("Quantity cannot be negative. Unable to update the product.");
+            return Result.Fail("Quantity cannot be negative.");
+        }
+
         var product = await _context.Products.FindAsync(productId);
 
         if (product == null)

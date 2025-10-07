@@ -54,6 +54,6 @@ public class GetAllProductsEndpoint : EndpointWithoutRequest<List<ProductDto>>
             return;
         }
 
-        await Send.ResponseAsync(null!, StatusCodes.Status500InternalServerError, ct);
+        ThrowError(string.Join("; ", result.Errors), StatusCodes.Status400BadRequest);
     }
 }
