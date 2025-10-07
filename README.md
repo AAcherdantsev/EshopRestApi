@@ -48,6 +48,9 @@ API versioning has been implemented. In the second version, you can get a list o
    dotnet test
    ```
 
+    <img width="1576" height="1150" alt="image" src="https://github.com/user-attachments/assets/f117b44b-8402-470f-81d7-c17996026f28" />
+
+
 3. **Configure SQL superuser password**
 
    In order for .NET Aspire to run SQL Server, you must provide the superuser password that will be used when connecting to the database. The password must be at least 8 characters long and contain characters from three of the following four sets: Uppercase letters, Lowercase letters, Base 10 digits, and Symbols. To do this, execute the commands (and replace `MyStrongP@ssw0rd` with your password): 
@@ -71,4 +74,13 @@ API versioning has been implemented. In the second version, you can get a list o
     * A set of sample products will be seeded into the database
 
    <img width="1570" height="968" alt="image" src="https://github.com/user-attachments/assets/84a62bc2-9033-4d06-8fd3-93ffe003869a" />
-   <img width="1570" height="968" alt="image" src="https://github.com/user-attachments/assets/db570847-bfde-4a49-b34a-60acd47e873a" />    
+   <img width="1570" height="968" alt="image" src="https://github.com/user-attachments/assets/db570847-bfde-4a49-b34a-60acd47e873a" />
+
+
+
+# Future Roadmap
+
+This project is designed as a foundation for a modular e-commerce API.
+In the future, the following improvements and features can be implemented:
+* User authentication and authorization — add JWT-based authentication
+   
