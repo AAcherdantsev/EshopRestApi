@@ -3,8 +3,9 @@
 **EshopRestApi** is a demo e-commerce project built with **.NET Aspire**.  
 It provides an API for managing products (adding, retrieving lists, getting by id, updating stock quantities) and orchestrates supporting services with Docker: **Kafka**, **MS SQL**, and **Kafbat UI**.
 
-API versioning has been implemented. In the second version, you can get a list of products with pagination, and when updating the product quantity, **Kafka** is used for asynchronous execution.
+API versioning has been implemented. In the second version, you can get a list of products with pagination, and when updating the product quantity, **Kafka** is used for asynchronous execution. 
 
+**Unit** and **integration** tests implemented. 
 
 ---
 
@@ -12,6 +13,7 @@ API versioning has been implemented. In the second version, you can get a list o
 * Manage products: add, list (with pagination), get by id, update stock quantities (synchronous and asynchronous)
 * API documentation available via Swagger UI
 * API versioning (v1 and v2)
+* Unit and integration tests
 * MS SQL database for product storage
 * Message processing powered by Apache Kafka
 * Real-time monitoring with Kafbat UI
@@ -39,9 +41,9 @@ API versioning has been implemented. In the second version, you can get a list o
    .\setup.ps1                      # Windows
    ```
 
-2. **Run unit tests (optional)**
+2. **Run unit and integration tests (optional)**
 
-   To run unit tests, you can use your IDE tools or, while in the root folder of this project, execute this command in the terminal:
+   To run unit and integration tests, you can use your IDE tools or, while in the root folder of this project, execute this command in the terminal:
    ```bash 
    dotnet test
    ```
