@@ -1,6 +1,7 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using NJsonSchema.Generation;
+using Shop.Products.Api.Exceptions;
 using Shop.Products.Api.Mapping;
 using Shop.Products.Infrastructure.Extensions;
 
@@ -41,6 +42,7 @@ builder.AddMessageServices();
 
 var app = builder.Build();
 
+app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 app.UseFastEndpoints(c =>
 {
