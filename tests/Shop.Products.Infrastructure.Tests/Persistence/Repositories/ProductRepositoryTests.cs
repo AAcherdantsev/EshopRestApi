@@ -342,8 +342,7 @@ public class ProductRepositoryTests
         var result = await _repository.UpdateProductQuantityAsync(product.Id, -5);
 
         // Assert
-        Assert.That(result.IsSuccess, Is.True);
-        Assert.That(result.Value.Quantity, Is.EqualTo(-5));
+        Assert.That(result.IsSuccess, Is.False);
     }
 
     [Test]
